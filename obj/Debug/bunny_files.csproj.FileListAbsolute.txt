@@ -1,0 +1,9 @@
+E:\Code\bunny_files\bunny_files\bin\Debug\bunny_files.exe.config
+E:\Code\bunny_files\bunny_files\bin\Debug\bunny_files.exe
+E:\Code\bunny_files\bunny_files\bin\Debug\bunny_files.pdb
+E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.csprojResolveAssemblyReference.cache
+E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.Form1.resources
+E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.Properties.Resources.resources
+E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.csproj.GenerateResource.Cache
+E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.exe
+E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.pdb
