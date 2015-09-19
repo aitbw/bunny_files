@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 
 namespace bunny_files
 {
@@ -25,7 +24,9 @@ namespace bunny_files
                 {
                     if (Drive.DriveType == DriveType.Removable)
                     {
-                        usb_devices.Items.Add(Drive);
+                        string ko = Drive.VolumeLabel;
+                        string dt = System.Convert.ToString(Drive.VolumeLabel);
+                        usb_devices.Items.Add(Drive.Name.Remove(2));
                     }
                 }
             }
@@ -42,12 +43,43 @@ namespace bunny_files
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("¿Está seguro de que desea continuar? Esta acción no puede ser revertida.", "Formatear unidad", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+            if (MessageBox.Show("¿Está seguro de que desea continuar? Esta acción no puede ser revertida.", "Formatear unidad", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                string ui = System.Environment.GetFolderPath(Environment.SpecialFolder.System);
+                string newui = ui.Remove(2);
+
+                if (usb_devices.Text == newui)
+                {
+                    MessageBox.Show("La unidad " + newui.Remove(1) + " no puede ser formateada", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else if (usb_devices.Text == "")
+                {
+                    MessageBox.Show("Por favor, seleccione una unidad.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    string type = "/q";
+                    string fs = "FAT32";
+                    format(type, fs, usb_devices.Text);
+                }
+            }
         }
 
-        private void format()
+        private void format(string type, string filesystem, string name)
         {
-
+            StreamWriter w_r;
+            w_r = File.CreateText(@"bunny.bat");
+            w_r.WriteLine("format /y" + type + "/fs:" + filesystem + " " + name);
+            w_r.Close();
+            System.Diagnostics.Process Proc1 = new System.Diagnostics.Process();
+            Proc1.StartInfo.FileName = @"bunny.bat";
+            Proc1.StartInfo.UseShellExecute = false;
+            Proc1.StartInfo.CreateNoWindow = true;
+            Proc1.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            Proc1.Start();
+            Proc1.WaitForExit();
+            File.Delete(@"bunny.bat");
+            MessageBox.Show("Unidad formateada con éxito.", "Proceso completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
