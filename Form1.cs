@@ -107,11 +107,12 @@ namespace bunny_files
                 var stamper = new PdfStamper(pdf, newFS);
                 var form = stamper.AcroFields;
                 var fieldKeys = form.Fields.Keys;
+                int n = 0;
 
-                // Esto es lo que llena todos los campos
                 foreach (string fieldKey in fieldKeys)
                 {
-                    form.SetField(fieldKey, "");
+                    form.SetField(fieldKey, formulario.Controls[n].Text);
+                    n++;
                 }
 
                 stamper.FormFlattening = true;
@@ -121,7 +122,6 @@ namespace bunny_files
             }
         }
 
-        // Esto es lo que genera los campos en base al PDF
         public void load_fields(string file)
         {
             using (var loadfile = new FileStream(file, FileMode.Open))
@@ -132,22 +132,22 @@ namespace bunny_files
                 TextBox[] fields = new TextBox[fieldKeys.Count];
                 Label[] labels = new Label[fieldKeys.Count];
 
+                for (int x = formulario.Controls.Count - 1; x >= 0; x--)
+                {
+                    if ((formulario.Controls[x] is TextBox) || (formulario.Controls[x] is Label))
+                    {
+                        formulario.Controls[x].Dispose();
+                    }
+                }
+
                 for (int i = 0; i < fieldKeys.Count; i++)
                 {
-                    for (int x = formulario.Controls.Count - 1; x >= 0; x--)
-                    {
-                        if ((formulario.Controls[x] is TextBox) || (formulario.Controls[x] is Label))
-                        {
-                            formulario.Controls[x].Dispose();
-                        }
-                    }
                     fields[i] = new TextBox();
                 }
 
                 for (int j = 0; j < fieldKeys.Count; j++)
                 {
                     formulario.Controls.Add(fields[j]);
-                    formulario.FlowDirection = FlowDirection.BottomUp;
                     formulario.Show();
                 }
 

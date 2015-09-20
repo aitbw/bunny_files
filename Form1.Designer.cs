@@ -103,7 +103,7 @@
             this.formulario.AutoSize = true;
             this.formulario.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.formulario.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.formulario.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp;
+            this.formulario.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.formulario.Location = new System.Drawing.Point(16, 106);
             this.formulario.Name = "formulario";
             this.formulario.Size = new System.Drawing.Size(4, 4);
