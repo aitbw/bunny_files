@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Diagnostics;
+using iTextSharp.text.pdf;
 
 namespace bunny_files
 {
@@ -24,8 +25,6 @@ namespace bunny_files
                 {
                     if (Drive.DriveType == DriveType.Removable)
                     {
-                        string ko = Drive.VolumeLabel;
-                        string dt = System.Convert.ToString(Drive.VolumeLabel);
                         usb_devices.Items.Add(Drive.Name.Remove(2));
                     }
                 }
@@ -34,11 +33,6 @@ namespace bunny_files
             {
                 MessageBox.Show("Ha ocurrido un error al momento de cargar las unidades, intente nuevamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void usb_devices_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -52,9 +46,9 @@ namespace bunny_files
                 {
                     MessageBox.Show("La unidad " + newui.Remove(1) + " no puede ser formateada", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                else if (usb_devices.Text == "")
+                else if ((usb_devices.Text == "") || (ofd.FileName == ""))
                 {
-                    MessageBox.Show("Por favor, seleccione una unidad.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("No ha seleccionado la unidad a formatear o no ha cargado un PDF.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
@@ -79,7 +73,86 @@ namespace bunny_files
             Proc1.Start();
             Proc1.WaitForExit();
             File.Delete(@"bunny.bat");
-            MessageBox.Show("Unidad formateada con éxito.", "Proceso completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                edit_pdf(ofd.FileName, (name + ofd.SafeFileName));
+                MessageBox.Show("Unidad formateada y PDF escrito con éxito.", "Proceso completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch
+            {
+                MessageBox.Show("Ha ocurrido un error al momento de escribir el PDF.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        OpenFileDialog ofd = new OpenFileDialog();
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ofd.Filter = "PDF|*.pdf";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                label3.Text = ofd.SafeFileName;
+                label3.Show();
+                load_fields(ofd.FileName);
+            }
+        }
+
+        public void edit_pdf(string oldfile, string newfile)
+        {
+            using (var existingFS = new FileStream(oldfile, FileMode.Open))
+            using (var newFS = new FileStream(newfile, FileMode.Create))
+            {
+                var pdf = new PdfReader(existingFS);
+                var stamper = new PdfStamper(pdf, newFS);
+                var form = stamper.AcroFields;
+                var fieldKeys = form.Fields.Keys;
+
+                // Esto es lo que llena todos los campos
+                foreach (string fieldKey in fieldKeys)
+                {
+                    form.SetField(fieldKey, "");
+                }
+
+                stamper.FormFlattening = true;
+
+                stamper.Close();
+                pdf.Close();
+            }
+        }
+
+        // Esto es lo que genera los campos en base al PDF
+        public void load_fields(string file)
+        {
+            using (var loadfile = new FileStream(file, FileMode.Open))
+            {
+                var pdf = new PdfReader(loadfile);
+                var form = pdf.AcroFields;
+                var fieldKeys = form.Fields.Keys;
+                TextBox[] fields = new TextBox[fieldKeys.Count];
+                Label[] labels = new Label[fieldKeys.Count];
+
+                for (int i = 0; i < fieldKeys.Count; i++)
+                {
+                    for (int x = formulario.Controls.Count - 1; x >= 0; x--)
+                    {
+                        if ((formulario.Controls[x] is TextBox) || (formulario.Controls[x] is Label))
+                        {
+                            formulario.Controls[x].Dispose();
+                        }
+                    }
+                    fields[i] = new TextBox();
+                }
+
+                for (int j = 0; j < fieldKeys.Count; j++)
+                {
+                    formulario.Controls.Add(fields[j]);
+                    formulario.FlowDirection = FlowDirection.BottomUp;
+                    formulario.Show();
+                }
+
+                pdf.Close();
+            }
         }
     }
 }

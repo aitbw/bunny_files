@@ -7,3 +7,5 @@ E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.Properties.Resources.resou
 E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.csproj.GenerateResource.Cache
 E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.exe
 E:\Code\bunny_files\bunny_files\obj\Debug\bunny_files.pdb
+E:\Code\bunny_files\bunny_files\bin\Debug\itextsharp.dll
+E:\Code\bunny_files\bunny_files\bin\Debug\itextsharp.xml

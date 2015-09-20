@@ -33,6 +33,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.formulario = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // label1
@@ -52,13 +54,12 @@
             this.usb_devices.Name = "usb_devices";
             this.usb_devices.Size = new System.Drawing.Size(121, 21);
             this.usb_devices.TabIndex = 1;
-            this.usb_devices.SelectedIndexChanged += new System.EventHandler(this.usb_devices_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(12, 80);
+            this.label2.Location = new System.Drawing.Point(12, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(152, 19);
             this.label2.TabIndex = 2;
@@ -66,7 +67,8 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(358, 226);
+            this.button1.AutoSize = true;
+            this.button1.Location = new System.Drawing.Point(358, 9);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(178, 23);
             this.button1.TabIndex = 3;
@@ -76,18 +78,47 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(170, 80);
+            this.button2.AutoSize = true;
+            this.button2.Location = new System.Drawing.Point(165, 44);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(134, 23);
             this.button2.TabIndex = 4;
             this.button2.Text = "Seleccionar archivo";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(13, 82);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(41, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "label3";
+            this.label3.Visible = false;
+            // 
+            // formulario
+            // 
+            this.formulario.AutoSize = true;
+            this.formulario.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.formulario.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.formulario.FlowDirection = System.Windows.Forms.FlowDirection.BottomUp;
+            this.formulario.Location = new System.Drawing.Point(16, 106);
+            this.formulario.Name = "formulario";
+            this.formulario.Size = new System.Drawing.Size(4, 4);
+            this.formulario.TabIndex = 6;
+            this.formulario.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(548, 261);
+            this.Controls.Add(this.formulario);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
@@ -107,6 +138,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.FlowLayoutPanel formulario;
     }
 }
 
